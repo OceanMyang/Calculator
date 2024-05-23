@@ -51,7 +51,7 @@ public class SimpleCalculator implements Calculator {
       default:
         throw new IllegalArgumentException("Invalid operation mode");
     }
-    if (l > Integer.MAX_VALUE) {
+    if (l > Integer.MAX_VALUE || l < Integer.MIN_VALUE) {
       return 0;
     } else {
       return l.intValue();
@@ -62,8 +62,8 @@ public class SimpleCalculator implements Calculator {
       return in;
     }
     long l = operand * 10L + in;
-    if (l > Integer.MAX_VALUE) {
-      throw new IllegalArgumentException();
+    if (l > Integer.MAX_VALUE || l < Integer.MIN_VALUE) {
+      throw new IllegalArgumentException("Input Overflows");
     }
     return operand * 10 + in;
   }
