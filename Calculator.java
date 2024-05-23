@@ -1,6 +1,6 @@
 package calculator;
 
 public interface Calculator {
-  Calculator input();
+  Calculator input(char c);
   String getResult();
 }
