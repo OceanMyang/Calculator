@@ -37,20 +37,33 @@ public class SimpleCalculator implements Calculator {
     if (tmp == null) {
       return operand;
     }
+    Long l = null;
     switch (mode) {
       case '+':
-        return tmp + operand;
+        l = tmp.longValue() + operand;
+        break;
       case '-':
-        return tmp - operand;
+        l = tmp.longValue() - operand;
+        break;
       case '*':
-        return tmp * operand;
+        l = tmp.longValue() * operand;
+        break;
       default:
         throw new IllegalArgumentException("Invalid operation mode");
+    }
+    if (l > Integer.MAX_VALUE) {
+      return 0;
+    } else {
+      return l.intValue();
     }
   }
   private int addDigit(int in) throws IllegalArgumentException {
     if (operand == null) {
       return in;
+    }
+    long l = operand * 10L + in;
+    if (l > Integer.MAX_VALUE) {
+      throw new IllegalArgumentException();
     }
     return operand * 10 + in;
   }
