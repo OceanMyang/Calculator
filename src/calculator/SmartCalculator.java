@@ -1,12 +1,6 @@
 package calculator;
 
-/**
- * A simple calculator allowing whole number calculations and + - * operations.
- * All fields in this class are final.
- * 1 SimpleCalculator Class only has 1 possible result.
- * Operations are done by the previous calculator before instantiation.
- */
-public class SimpleCalculator implements Calculator {
+public class SmartCalculator implements Calculator {
   // The result to be shown
   private final String result;
   // A temporary placeholder for operands waiting to be operated
@@ -19,7 +13,7 @@ public class SimpleCalculator implements Calculator {
   /**
    * The only constructor accessible to the user.
    */
-  public SimpleCalculator() {
+  public SmartCalculator() {
     this("", null, null, null);
   }
 
@@ -31,7 +25,7 @@ public class SimpleCalculator implements Calculator {
    * @param mode  Operation modes: +, -, or *.
    * @param operand  A number to be operated.
    */
-  private SimpleCalculator(String result, Integer tmp, Character mode, Integer operand) {
+  private SmartCalculator(String result, Integer tmp, Character mode, Integer operand) {
     this.result = result;
     this.tmp = tmp;
     this.mode = mode;
@@ -40,7 +34,7 @@ public class SimpleCalculator implements Calculator {
 
   // passes the inputs to the controller
   @Override
-  public SimpleCalculator input(char in) {
+  public SmartCalculator input(char in) {
     return controller(in);
   }
 
@@ -113,10 +107,10 @@ public class SimpleCalculator implements Calculator {
    * @return a new Calculator with a renewed state based on the input.
    * @throws IllegalArgumentException when inputs are invalid or models throw exceptions.
    */
-  private SimpleCalculator controller(char in) throws IllegalArgumentException {
+  private SmartCalculator controller(char in) throws IllegalArgumentException {
     // input is a char from '0'-'9'
     if (48 <= in && in <= 57) {
-      return new SimpleCalculator(result + in, tmp, mode, addDigit(in - 48));
+      return new SmartCalculator(result + in, tmp, mode, addDigit(in - 48));
     }
     switch (in) {
       // input is an operator.
@@ -130,16 +124,16 @@ public class SimpleCalculator implements Calculator {
         // e.g. 32+16+ -> 48+:
         // In this case, saves 48 as a result
         // saves 48 in temporary storage for later calculations and changes the calculation mode
-        return new SimpleCalculator(Integer.toString(operate()) + in, operate(), in, null);
+        return new SmartCalculator(Integer.toString(operate()) + in, operate(), in, null);
       case '=':
         // Prevent user to only enter =
         if (operand == null) {
           throw new IllegalArgumentException("No number before equal sign");
         }
-        return new SimpleCalculator(Integer.toString(operate()), null, null, operate());
+        return new SmartCalculator(Integer.toString(operate()), null, null, operate());
       // input is the clear command.
       case 'C':
-        return new SimpleCalculator();
+        return new SmartCalculator();
       // other invalid inputs.
       default:
         throw new IllegalArgumentException("Invalid Input");
