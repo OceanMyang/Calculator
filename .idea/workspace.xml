@@ -6,8 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="688456f3-b576-458a-9277-ab870cb70f9e" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/src/calculator/SmartCalculator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/calculator/CalculatorTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/calculator/SmartCalculatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/calculator/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/calculator/Calculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/calculator/SimpleCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/calculator/SimpleCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/calculator/SimpleCalculatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/calculator/SimpleCalculatorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +43,9 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.CalculatorTest.executor": "Run",
     "JUnit.SimpleCalculatorTest.executor": "Run",
+    "JUnit.SmartCalculatorTest.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
@@ -47,7 +53,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -82,7 +88,7 @@
       <option name="presentableId" value="Default" />
       <updated>1716410384790</updated>
       <workItem from="1716410386027" duration="37147000" />
-      <workItem from="1717078394871" duration="667000" />
+      <workItem from="1717078394871" duration="3277000" />
     </task>
     <servers />
   </component>
