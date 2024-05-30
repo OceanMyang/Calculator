@@ -11,6 +11,11 @@ import org.junit.Test;
  * Test for SimpleCalculator.
  */
 public class SimpleCalculatorTest extends CalculatorTest {
+  @Override
+  public void setUp() {
+    calculator = new SimpleCalculator();
+  }
+
   @Test
   public void invalidFirstInputs() {
     for (char i : List.of('+', '-', '*')) {

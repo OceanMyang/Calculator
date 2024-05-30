@@ -7,17 +7,14 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
 
-public class CalculatorTest {
+public abstract class CalculatorTest {
   protected Calculator calculator;
   protected String equation;
   private String[] expected;
 
   @Before
-  public void setUp() {
-    calculator = new SimpleCalculator();
-  }
+  public abstract void setUp();
 
   @Test
   public void initialStatus() {
