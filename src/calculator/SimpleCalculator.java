@@ -1,10 +1,8 @@
 package calculator;
 
 /**
- * A simple calculator allowing whole number calculations and + - * operations.
- * All fields in this class are final.
- * 1 SimpleCalculator Class only has 1 possible result.
- * Operations are done by the previous calculator before instantiation.
+ * A simple calculator for whole number calculations and + - * operations.
+ * It doesn't infer missing inputs and irregular expressions like 32+= or 32+-24.
  */
 public class SimpleCalculator extends AbstractCalculator implements Calculator {
   /**
@@ -26,20 +24,14 @@ public class SimpleCalculator extends AbstractCalculator implements Calculator {
     super(result, tmp, mode, operand);
   }
 
-  /**
-   * The controller which connects input, model(operate), and view(result).
-   * It calls the models to calculate the result and passes the result to a new Calculator.
-   * @param in inputs passed from input()
-   * @return a new Calculator with a renewed state based on the input.
-   * @throws IllegalArgumentException when inputs are invalid or models throw exceptions.
-   */
+  @Override
   protected SimpleCalculator controller(char in) throws IllegalArgumentException {
-    // input is a char from '0'-'9'
+    // input is a digit.
     if (48 <= in && in <= 57) {
       return new SimpleCalculator(result + in, tmp, mode, addDigit(in - 48));
     }
+    // input is an operator.
     switch (in) {
-      // input is an operator.
       case '+':
       case '-':
       case '*':

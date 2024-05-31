@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="688456f3-b576-458a-9277-ab870cb70f9e" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/src/calculator/AbstractCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/calculator/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/calculator/.idea/checkstyle-idea.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/calculator/.idea/misc.xml" beforeDir="false" />
@@ -20,8 +19,6 @@
       <change beforePath="$PROJECT_DIR$/src/calculator/test/calculator/CalculatorTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/calculator/test/calculator/SimpleCalculatorTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/calculator/test/calculator/SmartCalculatorTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/calculator/CalculatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/calculator/CalculatorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/calculator/SmartCalculatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/calculator/SmartCalculatorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +35,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/src/calculator" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5

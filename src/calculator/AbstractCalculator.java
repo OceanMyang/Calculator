@@ -2,7 +2,11 @@ package calculator;
 
 /**
  * The abstract Calculator class which implements the Calculator interface.
- * It
+ * It contains the final fields for a single integer calculation:
+ * two integers and an operator (mode).
+ * One AbstractCalculator Object only has 1 possible result.
+ * It inherits the two public functions from the user interface: input() and getResult().
+ * It contains two basic functions which does two basic number operations.
  */
 public abstract class AbstractCalculator implements Calculator {
   // The result to be shown
@@ -29,14 +33,25 @@ public abstract class AbstractCalculator implements Calculator {
     this.operand = operand;
   }
 
-  // passes the inputs to the controller
+  /**
+   * It passes the inputs to the controller.
+   * The controller will check the inputs' validity and manage calculations.
+   * Moreover, the controller is a factory method.
+   * It will decide which Calculator implementation it returns.
+   *
+   * @param in a single char as the input.
+   * @return A class which implements Calculator interface.
+   */
   @Override
   public Calculator input(char in) {
     return controller(in);
   }
 
-  // returns the calculation result of this Calculator class.
-  // the result is obtained before this class is instantiated.
+  /**
+   * Send the result to the user. The result is obtained before this class is instantiated.
+   *
+   * @return the calculation result of this Calculator class. "=" is ignored.
+   */
   @Override
   public String getResult() {
     return result.replace("=", "");
@@ -99,5 +114,13 @@ public abstract class AbstractCalculator implements Calculator {
     return operand * 10 + in;
   }
 
+  /**
+   * The controller which connects input, model(operate), and view(result).
+   * It calls the models to calculate the result and passes the result to a new Calculator.
+   *
+   * @param in the input char.
+   * @return a class implements Calculator decided by the implementation of this method.
+   * @throws IllegalArgumentException when inputs are invalid or may cause error in operations.
+   */
   protected abstract Calculator controller(char in);
 }

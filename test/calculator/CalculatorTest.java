@@ -6,6 +6,11 @@ import static org.junit.Assert.assertThrows;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * The abstract super class for the Calculator tests.
+ * It tests the similar functionalities shared by two calculators.
+ * The method execute helps the Calculator to iterate over a complete equation.
+ */
 public abstract class CalculatorTest {
   protected Calculator calculator;
   protected String equation;

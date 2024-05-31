@@ -6,8 +6,7 @@ import static org.junit.Assert.assertThrows;
 import org.junit.Test;
 
 /**
- * A smart calculator allowing whole number calculations and + - * operations.
- * It can automatically infer missing inputs.
+ * Test for SmartCalculator.
  */
 public class SmartCalculatorTest extends CalculatorTest {
 
