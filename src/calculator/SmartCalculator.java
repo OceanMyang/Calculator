@@ -42,7 +42,7 @@ public class SmartCalculator implements Calculator {
   // the result is obtained before this class is instantiated.
   @Override
   public String getResult() {
-    return result;
+    return result.replace("=", "");
   }
 
   /**
@@ -53,16 +53,16 @@ public class SmartCalculator implements Calculator {
    * @return the result of the operation or 0 when overflow or underflow.
    * @throws IllegalArgumentException when operand doesn't exist.
    */
-  private int operate(Character operator) throws IllegalArgumentException {
+  private int operate() throws IllegalArgumentException {
     if (operand == null) {
       throw new IllegalArgumentException("No operand");
     }
-    if (operator == null) {
+    if (mode == null) {
       return operand;
     }
 
     long result;
-    switch (operator) {
+    switch (mode) {
       case '+':
         result = tmp.longValue() + operand;
         break;
@@ -71,9 +71,6 @@ public class SmartCalculator implements Calculator {
         break;
       case '*':
         result = tmp.longValue() * operand;
-        break;
-      case '=':
-        result = operate(mode);
         break;
       default:
         throw new IllegalArgumentException("Invalid operation mode");
@@ -123,26 +120,58 @@ public class SmartCalculator implements Calculator {
       case '*':
         // Prevent situations like 32++ and +12
         if (operand == null) {
-          throw new IllegalArgumentException("No operand before operator");
+          if (mode != null) {
+            return new SmartCalculator(
+                    result + in,
+                    tmp,
+                    in,
+                    null);
+          } else if (in == '+') {
+            return new SmartCalculator(
+                    result + in,
+                    null,
+                    null,
+                    null);
+          } else {
+            throw new IllegalArgumentException("Illegal Start of expression");
+          }
         }
+
         // e.g. 32+16+ -> 48+:
         // In this case, saves 48 as a result
         // saves 48 in temporary storage for later calculations and changes the calculation mode
         return new SmartCalculator(
-                Integer.toString(operate(mode)) + in,
-                operate(mode),
+                Integer.toString(operate()) + in,
+                operate(),
                 in,
                 null);
       case '=':
         // Prevent user to only enter =
         if (operand == null) {
+          if (mode != null) {
+            int result = new SmartCalculator("", tmp, mode, tmp).operate();
+            return new SmartCalculator(
+                    Integer.toString(result),
+                    result,
+                    mode,
+                    tmp);
+          }
           throw new IllegalArgumentException("No number before equal sign");
         }
-        return new SmartCalculator(
-                Integer.toString(operate(mode)),
-                tmp,
-                mode,
-                operand);
+        if (result.endsWith("=")) {
+          int result = new SmartCalculator("", operate(), mode, operand).operate();
+          return new SmartCalculator(
+                  Integer.toString(result),
+                  result,
+                  mode,
+                  operand);
+        } else {
+          return new SmartCalculator(
+                  Integer.toString(operate()) + '=',
+                  tmp,
+                  mode,
+                  operand);
+        }
       // input is the clear command.
       case 'C':
         return new SmartCalculator();

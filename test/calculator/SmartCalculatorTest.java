@@ -31,17 +31,27 @@ public class SmartCalculatorTest extends CalculatorTest {
     assertEquals("64", execute(equation));
     equation = "32+==";
     assertEquals("96", execute(equation));
+    equation = "32+===";
+    assertEquals("128", execute(equation));
   }
 
   @Test
   public void consecutiveOperators() {
     equation = "32+-24=";
     assertEquals("8", execute(equation));
+    equation = "32+-*-+24=";
+    assertEquals("56", execute(equation));
   }
 
   @Test
   public void beginWithAdd() {
     equation = "+32-24=";
     assertEquals("8", execute(equation));
+  }
+
+  @Test
+  public void beginWithNonAdd() {
+    equation = "-32+24=";
+    assertThrows(IllegalArgumentException.class, () -> execute(equation));
   }
 }

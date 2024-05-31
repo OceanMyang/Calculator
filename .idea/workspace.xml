@@ -9,6 +9,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/calculator/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/calculator/Calculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/calculator/SimpleCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/calculator/SimpleCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/calculator/SmartCalculatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/calculator/SmartCalculatorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +41,7 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.CalculatorTest.executor": "Debug",
+    "JUnit.CalculatorTest.executor": "Run",
     "JUnit.SimpleCalculatorTest.executor": "Run",
     "JUnit.SmartCalculatorTest.executor": "Run",
     "Repository.Attach.Annotations": "false",
@@ -107,9 +108,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/test/calculator/SmartCalculatorTest.java</url>
-          <line>22</line>
-          <option name="timeStamp" value="15" />
+          <url>file://$PROJECT_DIR$/test/calculator/CalculatorTest.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
