@@ -1,14 +1,9 @@
 package calculator;
 
-public class SmartCalculator implements Calculator {
-  // The result to be shown
-  private final String result;
-  // A temporary placeholder for operands waiting to be operated
-  private final Integer tmp;
-  // Operation modes: +, -, or *
-  private final Character mode;
-  // A number to be operated
-  private final Integer operand;
+/**
+ *
+ */
+public class SmartCalculator extends AbstractCalculator {
 
   /**
    * The only constructor accessible to the user.
@@ -26,79 +21,7 @@ public class SmartCalculator implements Calculator {
    * @param operand  A number to be operated.
    */
   private SmartCalculator(String result, Integer tmp, Character mode, Integer operand) {
-    this.result = result;
-    this.tmp = tmp;
-    this.mode = mode;
-    this.operand = operand;
-  }
-
-  // passes the inputs to the controller
-  @Override
-  public SmartCalculator input(char in) {
-    return controller(in);
-  }
-
-  // returns the calculation result of this Calculator class.
-  // the result is obtained before this class is instantiated.
-  @Override
-  public String getResult() {
-    return result.replace("=", "");
-  }
-
-  /**
-   * A model which does the operation in this object.
-   * when only one operand exists (can't operate), return this operand
-   * Else, does + - * operations on the two operands
-   *
-   * @return the result of the operation or 0 when overflow or underflow.
-   * @throws IllegalArgumentException when operand doesn't exist.
-   */
-  private int operate() throws IllegalArgumentException {
-    if (operand == null) {
-      throw new IllegalArgumentException("No operand");
-    }
-    if (mode == null) {
-      return operand;
-    }
-
-    long result;
-    switch (mode) {
-      case '+':
-        result = tmp.longValue() + operand;
-        break;
-      case '-':
-        result = tmp.longValue() - operand;
-        break;
-      case '*':
-        result = tmp.longValue() * operand;
-        break;
-      default:
-        throw new IllegalArgumentException("Invalid operation mode");
-    }
-    if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
-      return 0;
-    } else {
-      return (int) result;
-    }
-  }
-
-  /**
-   * Another model which rearranges inputs into numbers.
-   * It is called only when inputs are digits.
-   * e.g. 11 -> 1 * 10 + 1
-   * @param in inputs as digits.
-   * @return the integer represented by the digit.
-   * @throws IllegalArgumentException when overflows.
-   */
-  private int addDigit(int in) throws IllegalArgumentException {
-    if (operand == null) {
-      return in;
-    }
-    long result = operand * 10L + in;
-    if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
-      throw new IllegalArgumentException("Input Overflows");
-    }
-    return operand * 10 + in;
+    super(result, tmp, mode, operand);
   }
 
   /**
@@ -108,7 +31,8 @@ public class SmartCalculator implements Calculator {
    * @return a new Calculator with a renewed state based on the input.
    * @throws IllegalArgumentException when inputs are invalid or models throw exceptions.
    */
-  private SmartCalculator controller(char in) throws IllegalArgumentException {
+  @Override
+  protected SmartCalculator controller(char in) throws IllegalArgumentException {
     // input is a char from '0'-'9'
     if (48 <= in && in <= 57) {
       return new SmartCalculator(result + in, tmp, mode, addDigit(in - 48));
@@ -128,10 +52,7 @@ public class SmartCalculator implements Calculator {
                     null);
           } else if (in == '+') {
             return new SmartCalculator(
-                    result + in,
-                    null,
-                    null,
-                    null);
+                    result + in, null, null, null);
           } else {
             throw new IllegalArgumentException("Illegal Start of expression");
           }
@@ -151,26 +72,17 @@ public class SmartCalculator implements Calculator {
           if (mode != null) {
             int result = new SmartCalculator("", tmp, mode, tmp).operate();
             return new SmartCalculator(
-                    Integer.toString(result),
-                    result,
-                    mode,
-                    tmp);
+                    Integer.toString(result), result, mode, tmp);
           }
           throw new IllegalArgumentException("No number before equal sign");
         }
         if (result.endsWith("=")) {
           int result = new SmartCalculator("", operate(), mode, operand).operate();
           return new SmartCalculator(
-                  Integer.toString(result),
-                  result,
-                  mode,
-                  operand);
+                  Integer.toString(result), result, mode, operand);
         } else {
           return new SmartCalculator(
-                  Integer.toString(operate()) + '=',
-                  tmp,
-                  mode,
-                  operand);
+                  Integer.toString(operate()) + '=', tmp, mode, operand);
         }
       // input is the clear command.
       case 'C':

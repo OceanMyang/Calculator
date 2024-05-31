@@ -2,12 +2,13 @@ package calculator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
 
-import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * A smart calculator allowing whole number calculations and + - * operations.
+ * It can automatically infer missing inputs.
+ */
 public class SmartCalculatorTest extends CalculatorTest {
 
   @Override
@@ -46,6 +47,8 @@ public class SmartCalculatorTest extends CalculatorTest {
   @Test
   public void beginWithAdd() {
     equation = "+32-24=";
+    assertEquals("8", execute(equation));
+    equation = "++32-24=";
     assertEquals("8", execute(equation));
   }
 

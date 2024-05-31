@@ -6,16 +6,7 @@ package calculator;
  * 1 SimpleCalculator Class only has 1 possible result.
  * Operations are done by the previous calculator before instantiation.
  */
-public class SimpleCalculator implements Calculator {
-  // The result to be shown
-  private final String result;
-  // A temporary placeholder for operands waiting to be operated
-  private final Integer tmp;
-  // Operation modes: +, -, or *
-  private final Character mode;
-  // A number to be operated
-  private final Integer operand;
-
+public class SimpleCalculator extends AbstractCalculator implements Calculator {
   /**
    * The only constructor accessible to the user.
    */
@@ -32,78 +23,7 @@ public class SimpleCalculator implements Calculator {
    * @param operand  A number to be operated.
    */
   private SimpleCalculator(String result, Integer tmp, Character mode, Integer operand) {
-    this.result = result;
-    this.tmp = tmp;
-    this.mode = mode;
-    this.operand = operand;
-  }
-
-  // passes the inputs to the controller
-  @Override
-  public SimpleCalculator input(char in) {
-    return controller(in);
-  }
-
-  // returns the calculation result of this Calculator class.
-  // the result is obtained before this class is instantiated.
-  @Override
-  public String getResult() {
-    return result;
-  }
-
-  /**
-   * A model which does the operation in this object.
-   * when only one operand exists (can't operate), return this operand
-   * Else, does + - * operations on the two operands
-   *
-   * @return the result of the operation or 0 when overflow or underflow.
-   * @throws IllegalArgumentException when operand doesn't exist.
-   */
-  private int operate() throws IllegalArgumentException {
-    if (operand == null) {
-      throw new IllegalArgumentException("No operand");
-    }
-    if (tmp == null) {
-      return operand;
-    }
-    Long l;
-    switch (mode) {
-      case '+':
-        l = tmp.longValue() + operand;
-        break;
-      case '-':
-        l = tmp.longValue() - operand;
-        break;
-      case '*':
-        l = tmp.longValue() * operand;
-        break;
-      default:
-        throw new IllegalArgumentException("Invalid operation mode");
-    }
-    if (l > Integer.MAX_VALUE || l < Integer.MIN_VALUE) {
-      return 0;
-    } else {
-      return l.intValue();
-    }
-  }
-
-  /**
-   * Another model which rearranges inputs into numbers.
-   * It is called only when inputs are digits.
-   * e.g. 11 -> 1 * 10 + 1
-   * @param in inputs as digits.
-   * @return the integer represented by the digit.
-   * @throws IllegalArgumentException when overflows.
-   */
-  private int addDigit(int in) throws IllegalArgumentException {
-    if (operand == null) {
-      return in;
-    }
-    long l = operand * 10L + in;
-    if (l > Integer.MAX_VALUE || l < Integer.MIN_VALUE) {
-      throw new IllegalArgumentException("Input Overflows");
-    }
-    return operand * 10 + in;
+    super(result, tmp, mode, operand);
   }
 
   /**
@@ -113,7 +33,7 @@ public class SimpleCalculator implements Calculator {
    * @return a new Calculator with a renewed state based on the input.
    * @throws IllegalArgumentException when inputs are invalid or models throw exceptions.
    */
-  private SimpleCalculator controller(char in) throws IllegalArgumentException {
+  protected SimpleCalculator controller(char in) throws IllegalArgumentException {
     // input is a char from '0'-'9'
     if (48 <= in && in <= 57) {
       return new SimpleCalculator(result + in, tmp, mode, addDigit(in - 48));

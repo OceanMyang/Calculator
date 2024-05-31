@@ -1,0 +1,178 @@
+Index: src/calculator/Calculator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package calculator;\n\npublic interface Calculator {\n  Calculator input(char c);\n  String getResult();\n}\n
+===================================================================
+diff --git a/src/calculator/Calculator.java b/src/calculator/Calculator.java
+--- a/src/calculator/Calculator.java	
++++ b/src/calculator/Calculator.java	
+@@ -1,6 +1,24 @@
+ package calculator;
+ 
++/**
++ * The interface for a calculator.
++ * This calculator has two methods: input() and getResult().
++ * It takes in one char and a time and calculate the result when getResult() is called.
++ * It allows + - * operations.
++ */
+ public interface Calculator {
++  /**
++   * Enter an input to the calculator.
++   *
++   * @param c a single char as the input.
++   * @return a new calculator which accepts the input.
++   */
+   Calculator input(char c);
++
++  /**
++   * Get the calculation result of the current calculator.
++   *
++   * @return a String representation of the result.
++   */
+   String getResult();
+ }
+Index: src/calculator/SimpleCalculator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package calculator;\n\npublic class SimpleCalculator implements Calculator {\n  // The result to be shown\n  private final String result;\n  // A temporary placeholder for operands waiting to be operated\n  private final Integer tmp;\n  // Operation modes: +, -, or *\n  private final Character mode;\n  private final Integer operand;\n\n  public SimpleCalculator() {\n    this(\"\", null, null, null);\n  }\n\n  private SimpleCalculator(String result, Integer tmp, Character mode, Integer operand) {\n    this.result = result;\n    this.tmp = tmp;\n    this.mode = mode;\n    this.operand = operand;\n  }\n\n  @Override\n  public SimpleCalculator input(char in) {\n    return controller(in);\n  }\n\n  @Override\n  public String getResult() {\n    return result;\n  }\n\n  private int operate() {\n    if (operand == null) {\n      throw new IllegalArgumentException(\"No operand\");\n    }\n    if (tmp == null) {\n      return operand;\n    }\n    Long l = null;\n    switch (mode) {\n      case '+':\n        l = tmp.longValue() + operand;\n        break;\n      case '-':\n        l = tmp.longValue() - operand;\n        break;\n      case '*':\n        l = tmp.longValue() * operand;\n        break;\n      default:\n        throw new IllegalArgumentException(\"Invalid operation mode\");\n    }\n    if (l > Integer.MAX_VALUE || l < Integer.MIN_VALUE) {\n      return 0;\n    } else {\n      return l.intValue();\n    }\n  }\n  private int addDigit(int in) throws IllegalArgumentException {\n    if (operand == null) {\n      return in;\n    }\n    long l = operand * 10L + in;\n    if (l > Integer.MAX_VALUE || l < Integer.MIN_VALUE) {\n      throw new IllegalArgumentException(\"Input Overflows\");\n    }\n    return operand * 10 + in;\n  }\n\n  private SimpleCalculator controller(char in) {\n    // input is a char from '0'-'9'\n    if (48 <= in && in <= 57) {\n      if (operand == null) {\n        return new SimpleCalculator(result + in, tmp, mode, addDigit(in - 48));\n      }\n      return new SimpleCalculator(result + in, tmp, mode, addDigit(in - 48));\n    }\n    switch (in) {\n      case '+':\n      case '-':\n      case '*':\n        // Prevent situations like 32++ and +12\n        if (operand == null) {\n          throw new IllegalArgumentException(\"No operand before operator\");\n        }\n        // 32+16+ -> 48+: saves 48 in temporary storage for later calculations and as a result\n        // and changes the calculation mode\n        return new SimpleCalculator(Integer.toString(operate()) + in, operate(), in, null);\n        // Prevent user to only enter =\n        case '=':\n        if (operand == null) {\n          throw new IllegalArgumentException(\"No number before equal sign\");\n        }\n        return new SimpleCalculator(Integer.toString(operate()), null, null, operate());\n      case 'C':\n        return new SimpleCalculator();\n      default:\n        throw new IllegalArgumentException(\"Invalid Input\");\n    }\n  }\n}\n
+===================================================================
+diff --git a/src/calculator/SimpleCalculator.java b/src/calculator/SimpleCalculator.java
+--- a/src/calculator/SimpleCalculator.java	
++++ b/src/calculator/SimpleCalculator.java	
+@@ -1,82 +1,47 @@
+ package calculator;
+ 
+-public class SimpleCalculator implements Calculator {
+-  // The result to be shown
+-  private final String result;
+-  // A temporary placeholder for operands waiting to be operated
+-  private final Integer tmp;
+-  // Operation modes: +, -, or *
+-  private final Character mode;
+-  private final Integer operand;
+-
++/**
++ * A simple calculator allowing whole number calculations and + - * operations.
++ * All fields in this class are final.
++ * 1 SimpleCalculator Class only has 1 possible result.
++ * Operations are done by the previous calculator before instantiation.
++ */
++public class SimpleCalculator extends AbstractCalculator implements Calculator {
++  /**
++   * The only constructor accessible to the user.
++   */
+   public SimpleCalculator() {
+     this("", null, null, null);
+   }
+ 
++  /**
++   * The default constructor.
++   *
++   * @param result  The result to be shown by getResult().
++   * @param tmp  A temporary placeholder for operands waiting to be operated.
++   * @param mode  Operation modes: +, -, or *.
++   * @param operand  A number to be operated.
++   */
+   private SimpleCalculator(String result, Integer tmp, Character mode, Integer operand) {
+-    this.result = result;
+-    this.tmp = tmp;
+-    this.mode = mode;
+-    this.operand = operand;
+-  }
+-
+-  @Override
+-  public SimpleCalculator input(char in) {
+-    return controller(in);
++    super(result, tmp, mode, operand);
+   }
+ 
++  /**
++   * The controller which connects input, model(operate), and view(result).
++   * It calls the models to calculate the result and passes the result to a new Calculator.
++   *
++   * @param in inputs passed from input().
++   * @return a new Calculator with a renewed state based on the input.
++   * @throws IllegalArgumentException when inputs are invalid or models throw exceptions.
++   */
+   @Override
+-  public String getResult() {
+-    return result;
+-  }
+-
+-  private int operate() {
+-    if (operand == null) {
+-      throw new IllegalArgumentException("No operand");
+-    }
+-    if (tmp == null) {
+-      return operand;
+-    }
+-    Long l = null;
+-    switch (mode) {
+-      case '+':
+-        l = tmp.longValue() + operand;
+-        break;
+-      case '-':
+-        l = tmp.longValue() - operand;
+-        break;
+-      case '*':
+-        l = tmp.longValue() * operand;
+-        break;
+-      default:
+-        throw new IllegalArgumentException("Invalid operation mode");
+-    }
+-    if (l > Integer.MAX_VALUE || l < Integer.MIN_VALUE) {
+-      return 0;
+-    } else {
+-      return l.intValue();
+-    }
+-  }
+-  private int addDigit(int in) throws IllegalArgumentException {
+-    if (operand == null) {
+-      return in;
+-    }
+-    long l = operand * 10L + in;
+-    if (l > Integer.MAX_VALUE || l < Integer.MIN_VALUE) {
+-      throw new IllegalArgumentException("Input Overflows");
+-    }
+-    return operand * 10 + in;
+-  }
+-
+-  private SimpleCalculator controller(char in) {
++  protected SimpleCalculator controller(char in) throws IllegalArgumentException {
+     // input is a char from '0'-'9'
+     if (48 <= in && in <= 57) {
+-      if (operand == null) {
+-        return new SimpleCalculator(result + in, tmp, mode, addDigit(in - 48));
+-      }
+       return new SimpleCalculator(result + in, tmp, mode, addDigit(in - 48));
+     }
+     switch (in) {
++      // input is an operator.
+       case '+':
+       case '-':
+       case '*':
+@@ -84,17 +49,20 @@
+         if (operand == null) {
+           throw new IllegalArgumentException("No operand before operator");
+         }
+-        // 32+16+ -> 48+: saves 48 in temporary storage for later calculations and as a result
+-        // and changes the calculation mode
++        // e.g. 32+16+ -> 48+:
++        // In this case, saves 48 as a result
++        // saves 48 in temporary storage for later calculations and changes the calculation mode
+         return new SimpleCalculator(Integer.toString(operate()) + in, operate(), in, null);
+-        // Prevent user to only enter =
+-        case '=':
++      case '=':
++        // Prevent user to only enter =
+         if (operand == null) {
+           throw new IllegalArgumentException("No number before equal sign");
+         }
+         return new SimpleCalculator(Integer.toString(operate()), null, null, operate());
++      // input is the clear command.
+       case 'C':
+         return new SimpleCalculator();
++      // other invalid inputs.
+       default:
+         throw new IllegalArgumentException("Invalid Input");
+     }
